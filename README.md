@@ -8,6 +8,11 @@ Tested by running `coqc [model].v` and checking for a successful compilation.
 So far, none have single-shot generated a successful prompt.
 
 # UPDATE 2024-03-05
+
 With the release of Claude 3, I've added an additional response from Claude 3 Sonnet. It does not compile.
 
 I hope to update this with future attempts.
+
+# UPDATE 2024-09-13
+
+Added o1 (using o1-preview), did not compile.
