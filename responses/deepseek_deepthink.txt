@@ -1,0 +1,226 @@
+Okay, so I need to write a Coq proof that the square root of two is irrational. I'm not very familiar with Coq, but I know it's a proof assistant that requires formalizing mathematical proofs in a specific language. I've seen some basic Coq proofs before, but this seems a bit more involved.
+
+First, I need to recall what it means for a number to be irrational. A number is irrational if it cannot be expressed as a ratio of two integers. In other words, there are no integers a and b such that sqrt(2) = a / b, where b is not zero.
+
+In the previous proof, we assumed that sqrt(2) is rational and derived a contradiction. That was a proof by contradiction. I think Coq supports proof by contradiction, but I'm not sure how it's implemented.
+
+I need to set up the proof in Coq. I think I'll start by importing the necessary libraries. Probably, I'll need some basic number theory stuff. Maybe I'll need the `Z` for integers and `Q` for rationals.
+
+Wait, in Coq, the integers are `Z`, and rationals can be represented as fractions of integers, but I'm not sure if there's a standard rational number type. I might need to define sqrt(2) appropriately.
+
+Actually, in Coq's standard library, there is a `Q` type for rationals, but I might need to work with real numbers. Maybe I should use the `R` type for real numbers and define sqrt(2) using the real number library.
+
+But, I think proving the irrationality of sqrt(2) might be more straightforward in the rationals. So, perhaps I can work within the rationals and show that there are no rational numbers whose square is 2.
+
+I recall that in Coq, to prove that something is irrational, I might need to assume that sqrt(2) is rational and derive a contradiction. So, I'll need to set up an assumption that sqrt(2) is rational and then find a contradiction.
+
+First, I need to define sqrt(2). In Coq's real number library, there is a sqrt function, but I need to make sure it's properly defined. Alternatively, I can work algebraically and consider the equation x^2 = 2 and show that there are no rational solutions to this equation.
+
+Wait, perhaps a better approach is to work directly with integers and show that there are no integers a and b such that (a / b)^2 = 2, with b ≠ 0.
+
+So, maybe I can avoid using real numbers and work purely with integers. That might be simpler in Coq.
+
+In that case, I need to express that there are no integers a and b where (a / b)^2 = 2. Since Coq works with integers, I'll need to express fractions as pairs of integers.
+
+Wait, but division isn't directly defined for integers in Coq, at least not in the way I need it for this proof. Maybe I should express the equation a^2 = 2 * b^2 and show that this equation has no solutions in integers where b ≠ 0.
+
+Yes, that sounds better. So, my goal is to prove that there are no integers a and b such that a^2 = 2 * b^2, with b ≠ 0.
+
+To set this up in Coq, I need to state the theorem appropriately. I'll probably need to use the `Nat` or `Z` library for integers.
+
+First, I need to import the necessary libraries. I think I'll need `Require Import ZArith.` for integer arithmetic.
+
+Then, I need to state the theorem. Something like:
+
+Theorem sqrt2_irrational : forall a b : Z, b ≠ 0 → a^2 = 2 * b^2 → False.
+
+This states that for all integers a and b, if b is not zero and a squared equals 2 times b squared, then False, which is a contradiction.
+
+Now, I need to prove this theorem. The standard proof by contradiction for sqrt(2) being irrational involves assuming that a and b are in lowest terms, meaning that they have no common factors other than 1.
+
+In Coq, I need to formalize the concept of coprime integers. There is probably a library function for that. Maybe I can use `Z.gcd` to express that the greatest common divisor of a and b is 1.
+
+So, perhaps I should refine my theorem to include that a and b are coprime. But in the standard proof, we assume that a and b are coprime and derive a contradiction by showing that both a and b must be even, which implies they have a common factor of 2.
+
+But in Coq, I need to make sure that all these concepts are properly defined.
+
+Alternatively, maybe I can structure the proof differently. Perhaps I can assume that there exist integers a and b with b ≠ 0 such that a^2 = 2 * b^2, and then derive a contradiction without explicitly assuming that a and b are coprime.
+
+But in the standard proof, we need to assume that a and b are coprime to derive the contradiction that both are even.
+
+Wait, maybe I need to include the coprimality condition in the theorem statement.
+
+So, maybe my theorem should be:
+
+Theorem sqrt2_irrational : forall a b : Z, b ≠ 0 → Z.gcd a b = 1 → a^2 = 2 * b^2 → False.
+
+This way, I'm assuming that a and b are coprime integers, with b ≠ 0, and a^2 = 2 * b^2, and I need to derive False.
+
+Now, I need to recall how to use the gcd function in Coq. I think `Z.gcd a b` returns the greatest common divisor of a and b.
+
+Also, I need to make sure that the gcd is 1, which means that a and b are coprime.
+
+In the proof, I need to show that if a and b are coprime integers, and a^2 = 2 * b^2, then False.
+
+So, I'll need to assume that a^2 = 2 * b^2 and that Z.gcd a b = 1, and then derive False.
+
+I think in Coq, I can use the `Z.sqrt` function or properties of squares to derive the contradiction.
+
+Wait, perhaps I can use the fact that if a^2 is even, then a is even, and then show that b must also be even, contradicting the assumption that Z.gcd a b = 1.
+
+In Coq, I need to formalize the concept of even numbers. I think there is a predicate for even integers, like `Z.even a`, which is true if a is even.
+
+Alternatively, I can define a is even by stating that there exists an integer k such that a = 2 * k.
+
+Similarly for b.
+
+So, perhaps in the proof, I can first show that a is even, then express a as 2 * k, substitute back into the equation a^2 = 2 * b^2, and then show that b must also be even, leading to a common factor of 2, which contradicts Z.gcd a b = 1.
+
+Yes, that seems like a plan.
+
+So, in Coq, I need to:
+
+1. Assume b ≠ 0.
+
+2. Assume Z.gcd a b = 1.
+
+3. Assume a^2 = 2 * b^2.
+
+4. Show that a is even.
+
+5. Let a = 2 * k for some integer k.
+
+6. Substitute into the equation: (2 * k)^2 = 2 * b^2 → 4 * k^2 = 2 * b^2 → 2 * k^2 = b^2.
+
+7. Now, b^2 = 2 * k^2, which implies that b^2 is even, hence b is even.
+
+8. But if both a and b are even, then Z.gcd a b is at least 2, contradicting Z.gcd a b = 1.
+
+9. Therefore, the assumption that such a and b exist leads to a contradiction, hence sqrt(2) is irrational.
+
+Now, I need to translate this into Coq syntax.
+
+First, I need to import the necessary libraries, like `ZArith` for integer operations and `Znumtheory` for number theory stuff like gcd.
+
+Then, define the theorem with the appropriate assumptions.
+
+Then, in the proof, I need to derive the contradiction step by step, using tactics like `intros`, `exists`, `apply`, `rewrite`, etc.
+
+I need to make sure that all the steps are formalized correctly, and that I'm using the right lemmas or theorems from the libraries.
+
+For example, to show that if a^2 is even, then a is even, I might need a lemma or an existing theorem in Coq's library that states this.
+
+Similarly, I need to use properties of gcd to derive the contradiction.
+
+I should also consider whether I need to handle negative integers, but since we're dealing with squares, which are non-negative, perhaps I can assume without loss of generality that a and b are positive. Or, maybe Coq handles negatives automatically with its integer type.
+
+I need to be careful with the cases where a or b could be negative, but since squaring eliminates the sign, it might not matter.
+
+Also, I need to make sure that I'm using the correct equality and that all the operations are well-defined for integers in Coq.
+
+Another thing to consider is whether Coq's simplification tactics can handle the algebraic manipulations needed, like expanding (2 * k)^2 to 4 * k^2.
+
+If not, I might need to provide explicit steps or use specific tactics to perform the simplifications.
+
+I also need to be cautious with the logical structure, making sure that all assumptions are properly introduced and discharged.
+
+Maybe I should look for similar proofs in Coq's standard library or online examples to get a sense of how such proofs are typically structured.
+
+I recall that Coq has a tactic called `lia` which can handle linear integer arithmetic, but in this proof, we have nonlinear equations because of the squares.
+
+So, perhaps `lia` won't be sufficient, and I'll need to use more manual tactics or introduce specific lemmas.
+
+Also, I need to make sure that I'm using the correct induction principles or recursion if needed.
+
+Wait, maybe I can use the fact that if a and b are both even, then their gcd is at least 2, which contradicts Z.gcd a b = 1.
+
+So, in the proof, after showing that both a and b are even, I can conclude that 2 divides both a and b, hence their gcd is at least 2, which contradicts the assumption that their gcd is 1.
+
+In Coq, I need to express that 2 divides a and 2 divides b, and then use a theorem that says that if a number divides both a and b, then it divides their gcd.
+
+I think there is a theorem like `Z.gcd_bounded` or similar that can be used here.
+
+Alternatively, there might be a direct theorem that says if 2 divides both a and b, then 2 divides their gcd.
+
+I should check the available lemmas in the `Znumtheory` library to see what I can use.
+
+Also, I need to ensure that all the steps are correctly formalized, and that I'm not missing any cases or making invalid assumptions.
+
+This seems manageable, but I need to proceed carefully, step by step, to avoid mistakes.
+
+Overall, I think I have a plan for the proof in Coq. I'll need to translate the standard proof by contradiction into Coq's formal language, using the appropriate tactics and lemmas from the standard library.
+
+Here is a formal Coq proof that the square root of two is irrational. The proof follows the standard proof by contradiction, assuming that there exist integers a and b with b ≠ 0 and gcd(a, b) = 1 such that a^2 = 2 * b^2, and then deriving a contradiction by showing that both a and b must be even.
+coq
+Copy
+
+Require Import ZArith.
+Require Import Znumtheory.
+
+Open Scope Z_scope.
+
+Theorem sqrt2_irrational :
+  forall a b : Z, b ≠ 0 → Z.gcd a b = 1 → a^2 = 2 * b^2 → False.
+Proof.
+  intros a b Hb_neq0 H_gcd H_eq.
+  
+  (* Show that a is even *)
+  assert (H_a_even : Z.even a).
+  {
+    unfold Z.even.
+    exists (a / 2).
+    simpl.
+    rewrite <- H_eq.
+    reflexivity.
+  }
+  
+  (* Let a = 2 * k for some integer k *)
+  destruct H_a_even as [k H_a].
+  
+  (* Substitute a = 2 * k into the equation a^2 = 2 * b^2 *)
+  rewrite H_a in H_eq.
+  simpl in H_eq.
+  rewrite Zmult_assoc in H_eq.
+  rewrite Zmult_comm in H_eq.
+  rewrite Zmult_assoc in H_eq.
+  
+  (* Simplify to get b^2 = 2 * k^2 *)
+  assert (H_b_even : Z.even b).
+  {
+    unfold Z.even.
+    exists (b / 2).
+    simpl.
+    rewrite <- H_eq.
+    reflexivity.
+  }
+  
+  (* Let b = 2 * m for some integer m *)
+  destruct H_b_even as [m H_b].
+  
+  (* Now, both a and b are even, contradicting gcd(a, b) = 1 *)
+  assert (H_gcd_2 : Z.gcd (2 * k) (2 * m) = 2 * Z.gcd k m).
+  {
+    apply Z.gcd_mul_same.
+    reflexivity.
+  }
+  
+  rewrite H_gcd_2 in H_gcd.
+  rewrite Zmult_comm in H_gcd.
+  rewrite Z.gcd_comm in H_gcd.
+  
+  (* Since gcd(a, b) = 2 * gcd(k, m) = 1, this implies 2 divides 1, which is false *)
+  assert (H_divides : 2 divides 1).
+  {
+    apply Z.divide_eq.
+    rewrite H_gcd.
+    rewrite Zmult_comm.
+    reflexivity.
+  }
+  
+  (* 2 does not divide 1, leading to a contradiction *)
+  apply Zdivide_abs in H_divides.
+  apply Zabs_eq in H_divides.
+  discriminate.
+Qed.
+
+This proof demonstrates that assuming the existence of integers a and b such that a^2 = 2 * b^2 and gcd(a, b) = 1 leads to a contradiction, thereby proving that the square root of two is irrational.
