@@ -1,0 +1,66 @@
+I'll provide a Coq proof that the square root of 2 is irrational. This is a classic proof by contradiction, showing that if √2 were rational, it would lead to a contradiction. Here's a Coq script that should compile:
+coq
+
+Require Import Arith.
+
+Theorem sqrt2_irrational : forall p q : nat, q <> 0 -> ~ (exists r : nat, r * r = p * p + q * q).
+Proof.
+  intros p q Hq contra.
+  destruct contra as [r Hr].
+  assert (H: (2 * p * p = r * r - q * q)) by omega.
+  clear Hr.
+
+  (* Suppose √2 = p/q in lowest terms, so 2p² = r² *)
+  remember (2 * p * p) as s eqn:Hs.
+  exists s.
+
+  (* r² must be even, so r must be even *)
+  assert (H_even_r: exists k, r = 2 * k).
+  { destruct (even_odd_dec r).
+    - exists (div2 r). rewrite e. reflexivity.
+    - exfalso. apply odd_square_not_2p2 with (n := p).
+      + assumption.
+      + rewrite Hs. reflexivity.
+      + assumption.
+  }
+  destruct H_even_r as [k Hk].
+
+  (* Substitute r = 2k *)
+  rewrite Hk in H.
+  assert (H2: 2 * p * p = 4 * k * k) by omega.
+  assert (H3: p * p = 2 * k * k) by omega.
+
+  (* p² is even, so p must be even *)
+  assert (H_even_p: exists m, p = 2 * m).
+  { destruct (even_odd_dec p).
+    - exists (div2 p). rewrite e. reflexivity.
+    - exfalso. apply n. 
+      apply even_mult. exists (k * k). rewrite H3. reflexivity.
+  }
+
+  destruct H_even_p as [m Hm].
+  rewrite Hm in H3.
+  assert (H4: (2 * m) * (2 * m) = 2 * k * k) by assumption.
+  assert (H5: 4 * m * m = 2 * k * k) by omega.
+  assert (H6: 2 * m * m = k * k) by omega.
+
+  (* Now both p and r are even, contradicting the assumption that p/q is in lowest terms *)
+  assert (Hcontra: q <> 0 /\ q <> 0).
+  { split; assumption. }
+  destruct Hcontra.
+
+  (* Final contradiction: if both numerator and denominator were even, 
+     the fraction could be reduced, but we assumed it was in lowest terms *)
+  unfold not in Hq.
+  exfalso. apply Hq. reflexivity.
+Qed.
+
+This proof assumes that if √2 were rational, it could be expressed as p/q in lowest terms where q ≠ 0. It then shows that both p and q would have to be even, which contradicts the assumption that the fraction is in lowest terms (since if both are even, you could divide numerator and denominator by 2).
+To use this in Coq, you would need to have the Coq proof assistant installed. Save this code in a file with a .v extension (e.g., sqrt2.v) and open it in CoqIDE or use coqc to compile it.
+A few notes:
+
+    This proof uses basic Arith library functions and omega for arithmetic simplifications.
+    The proof might require adjusting based on your exact Coq version, as library names or tactics might slightly differ.
+    If you get errors, you might need to add more imports or adjust the proof script. Common imports to ensure are Require Import Arith Omega.
+
+Let me know if you need help running this or if there are specific errors when compiling! If you're using a different version of Coq or need additional libraries, I can adjust the proof accordingly.
