@@ -1,0 +1,14 @@
+I'll create a Coq proof showing that the square root of two is irrational.
+
+The proof uses a classic proof by contradiction approach. Here's a breakdown of the reasoning:
+
+1. We assume √2 is rational, meaning it can be written as p/q where p and q are integers with no common factors (gcd = 1)
+2. This gives us the equation p² = 2q²
+3. Since p² = 2q², we know p² is even, which means p must be even (p = 2k for some integer k)
+4. Substituting p = 2k into the original equation, we get 4k² = 2q²
+5. Simplifying, we get q² = 2k², which means q² is even
+6. Therefore q must be even (q = 2m for some integer m)
+7. Since both p and q are even, they share a common factor of 2
+8. This contradicts our assumption that gcd(p,q) = 1
+
+The proof uses Coq's ZArith and Znumtheory libraries to handle integer arithmetic and number theory concepts, and the Lia tactic to solve the final contradiction with linear integer arithmetic.
